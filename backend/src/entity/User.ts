@@ -2,6 +2,7 @@ import { Entity, Column, Unique, Index, BeforeInsert, OneToMany } from "typeorm"
 import { IsEmail, IsNotEmpty, IsOptional, Matches } from "class-validator"
 import { BaseModel } from "./BaseModel"
 import { Campaign } from "./Campaign"
+import { Enrollments } from "./Enrollment"
 import * as bcrypt from "bcrypt"
 
 export enum UserRole {
@@ -68,4 +69,7 @@ export class User extends BaseModel{
     @OneToMany(() => Campaign, campaign => campaign.initiator)
     @IsOptional()
     campaigns!: Campaign[]
+
+    @OneToMany(() => Enrollments, enrollment => enrollment.farmer)
+    enrollments!: Enrollments[]
 }
