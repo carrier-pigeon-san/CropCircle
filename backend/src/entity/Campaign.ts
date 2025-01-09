@@ -1,5 +1,6 @@
-import { Column, Index, Entity, ManyToOne } from "typeorm";
+import { Column, Index, Entity, ManyToOne, OneToMany } from "typeorm";
 import { BaseModel } from "./BaseModel";
+import { Enrollments } from "./Enrollment";
 import { User } from "./User";
 
 export enum CampaignStatus {
@@ -60,4 +61,7 @@ export class Campaign extends BaseModel {
 
   @Column({type: "enum", enum: CampaignStatus, default: CampaignStatus.PENDING})
   status!: CampaignStatus
+
+  @OneToMany(() => Enrollments, enrollment => enrollment.campaign)
+  enrollments!: Enrollments[]
 }
