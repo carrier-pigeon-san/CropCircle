@@ -1,6 +1,7 @@
-import { Entity, Column, Unique, Index, BeforeInsert } from "typeorm"
-import { IsEmail, IsNotEmpty, Matches } from "class-validator"
+import { Entity, Column, Unique, Index, BeforeInsert, OneToMany } from "typeorm"
+import { IsEmail, IsNotEmpty, IsOptional, Matches } from "class-validator"
 import { BaseModel } from "./BaseModel"
+import { Campaign } from "./Campaign"
 import * as bcrypt from "bcrypt"
 
 export enum UserRole {
@@ -63,4 +64,8 @@ export class User extends BaseModel{
     async hashPassword() {
       this.password = await bcrypt.hash(this.password, 10)
     }
+
+    @OneToMany(() => Campaign, campaign => campaign.initiator)
+    @IsOptional()
+    campaigns!: Campaign[]
 }
