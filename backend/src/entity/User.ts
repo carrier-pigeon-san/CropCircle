@@ -1,5 +1,5 @@
 import { Entity, Column, Unique, Index, BeforeInsert, OneToMany } from "typeorm"
-import { IsEmail, IsNotEmpty, IsOptional, Matches } from "class-validator"
+import { IsEmail, IsNotEmpty, IsOptional, Matches, IsMobilePhone } from "class-validator"
 import { BaseModel } from "./BaseModel"
 import { Campaign } from "./Campaign"
 import { Enrollments } from "./Enrollment"
@@ -27,6 +27,11 @@ export class User extends BaseModel{
     @IsNotEmpty({message: "Email is required"})
     @IsEmail({}, {message: "Invalid email"})
     email!: string
+
+    @Column({type: "varchar", length: 12, nullable: false})
+    @IsNotEmpty({message: "Phone number is required"})
+    @IsMobilePhone('en-KE', null, { message: "Invalid phone number" } )
+    phone_number!: string
 
     @Column({type: "varchar", length: 255, nullable: false})
     @IsNotEmpty({message: "Password is required"})
